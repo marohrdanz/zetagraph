@@ -6,22 +6,29 @@ from typing import TypedDict
 load_dotenv()
 logger = log_setup.configure_logging()
 
-# Defin the state structure
+##
+## This is the hello world of LangGraph
+##
+
+# State is a shared data structure passed between nodes
 class State(TypedDict):
+    """Define the structure of the state passed between nodes"""
     message: str
     response: str
 
-# Define node functions
+# Define a greeter node
+# Nodes are functions that perform work, e.g. call LLMs, search tools, etc.
 def greeter_node(state: State) -> State:
     """Generate a greeting"""
     name = state["message"]
-    state["response"] = f"Hello, {name}! Welcome to LangGraph."
+    state["response"] = f"Hello, {name}, or should I say, 'Hello World!'"
     return state
 
 # Build the graph
 workflow = StateGraph(State)
-workflow.add_node("greeter", greeter_node)
 workflow.set_entry_point("greeter")
+workflow.add_node("greeter", greeter_node)
+# Edges are connections between the nodes that define the flow
 workflow.add_edge("greeter", END)
 
 # Compile and run
