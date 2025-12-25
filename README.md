@@ -24,7 +24,7 @@ The only required env is the `ANTHROPIC_API_KEY`, but you can also set:
 Sample usage and output:
 
 ```bash
-$ python first_graph.py 
+python first_graph.py 
 ```
 
 Example output:
@@ -38,7 +38,7 @@ Hello, Alice, or should I say, 'Hello World!'
 This example actually invokes and LLM to get a response.
 
 ```bash
-$ python second_graph.py 
+python second_graph.py 
 ```
 
 I get bored with the 'helpful assistant' trope, so made mine a sea pirate. Example output:
