@@ -1,0 +1,167 @@
+from dotenv import load_dotenv
+import log_setup
+from langchain_anthropic import ChatAnthropic
+from langchain_core.messages import HumanMessage, SystemMessage
+from typing import TypedDict, Literal, Annotated
+from langgraph.graph import StateGraph, END
+from os import getenv
+from ddgs import DDGS
+from langchain_community.tools import DuckDuckGoSearchRun
+from langgraph.graph.message import add_messages
+
+load_dotenv()
+logger = log_setup.configure_logging()
+model = getenv("ANTHROPIC_MODEL", "claude-2")
+
+class ResearchState(TypedDict):
+    messages: Annotated[list, add_messages]
+    question: str
+    research_plan: str
+    search_results: list
+    draft_answer: str
+    final_answer: str
+    iteration: int
+    max_iterations: int
+    is_approved: bool
+    reviewer_comments: str
+
+def planner_node(state: ResearchState) -> ResearchState:
+    """Create research plan"""
+    logger.debug("Creating research plan")
+    llm = ChatAnthropic(model=model, temperature=0)
+    prompt = f"""Create a research plan to answer this question: {state['question']}.
+        List 2-3 specific search queries that would help answer this question comprehensively.
+        Format as a numbered list."""
+    response = llm.invoke([HumanMessage(content=prompt)])
+    logger.debug(f"Research plan: {response.content}")
+    state['research_plan'] = response.content
+    state['iteration'] = 0
+    state['max_iterations'] = 3
+    state['is_approved'] = False
+    return state
+
+def researcher_node(state: ResearchState) -> ResearchState:
+    """Execute seraches based on the research plan."""
+    logger.debug("Executing research plan")
+    search = DuckDuckGoSearchRun()
+    
+    # Extract queries from plan (simplified parsing)
+    lines = state['research_plan'].split('\n')
+    queries = [line.split('.', 1)[-1].strip() for line in lines if line.strip() and line[0].isdigit()]
+    results = []
+    for query in queries[:3]: # just look at first 3 queries
+        try:
+            result = search.run(query)
+            results.append(f"Query: {query}\nResults: {result}\n")
+            logger.debug(f"Search results for '{query}'")
+            logger.warning(f"  {result}")
+        except Exception as e:
+            logger.error(f"Search.run failed for {query}: {e}")
+            results.append(f"Query: {query}\nResults: no results found.\n")
+    state['search_results'] = results
+    return state
+
+def writer_node(state: ResearchState) -> ResearchState:
+    """Write answer based on research."""
+    logger.debug("Writing answer based on research")
+    llm = ChatAnthropic(model=model, temperature=0)
+    research_context = "\n\n".join(state['search_results'])
+    feedback_context = ""
+    if state.get('reviewer_comments'):
+        feedback_context = f"""
+            IMPORTANT - Previous feedback to address:
+            {state['reviewer_comments']}
+            Previous draft (needs improvement):
+            {state['draft_answer']}
+         """
+    prompt = f"""Based on the following research, write a comprehensive answer to the question.
+              Question: {state['question']}
+              Research: {research_context}
+                        {feedback_context}
+              Provide a clear, well structured answer, and write your response as if you were Edgar Allan Poe."""
+    response = llm.invoke([HumanMessage(content=prompt)])
+    logger.debug(f"Draft answer: {response.content}")
+    state['draft_answer'] = response.content
+    state['iteration'] += 1
+    return state
+
+def reviewer_node(state: ResearchState) -> ResearchState:
+    """Review and finalize the answer."""
+    logger.debug("Reviewing answer")
+    llm = ChatAnthropic(model=model, temperature=0)
+    prompt = f"""Review this answer for accuracy and completelness:
+              Question: {state['question']}
+              Asnwer: {state['draft_answer']}
+              Evaluate this answer for clarity, and ensure it's written in the style of Edgar Allan Poe.
+              Respond in this format:
+              DECISION: [APPROVED or NEEDS_REVISION]
+              COMMENTS: [If needs revision, explain what specific improvements are needed. If approved, leave blank.]"""
+    response = llm.invoke([HumanMessage(content=prompt)])
+    
+    if "APPROVED" in response.content.upper() and "NEEDS_REVISION" not in response.content.upper():
+        logger.debug(f"Answer approved: {response.content}")
+        state['final_answer'] = state['draft_answer']
+        state['is_approved'] = True
+        state['reviewer_comments'] = ""
+    else:
+        logger.debug(f"Answer not approved: {response.content}")
+        state['is_approved'] = False
+        if "COMMENTS:" in response.content:
+            comments = response.content.split("COMMENTS:", 1)[-1].strip()
+            state['reviewer_comments'] = comments
+        else:
+            state['reviewer_comments'] = "No specific comments provided."
+    state['final_answer'] = state['draft_answer'] + "\n\n[Note: Answer may need refinement]"
+
+def should_continue(state: ResearchState) -> Literal["writer", "end"]:
+    """Decide if we need another iteration."""
+    logger.debug(f"Deciding if we should continue. Current iteration: {state['iteration']}")
+    if state['is_approved']:
+        logger.debug("Answer approved. Ending workflow")
+        return 'end'
+    if state['iteration'] >= state['max_iterations']:
+        logger.warning("Answer is not good enough, but max iterations reached. Ending workflow")
+        state['final_answer'] = state['draft_answer'] + "\n\n[Note: Answer may need refinement]"
+        return 'end'
+    return 'writer'
+
+# Build the graph
+workflow = StateGraph(ResearchState)
+workflow.add_node('planner', planner_node)
+workflow.add_node('researcher', researcher_node)
+workflow.add_node('writer', writer_node)
+workflow.add_node('reviewer', reviewer_node)
+
+workflow.set_entry_point('planner')
+workflow.add_edge('planner', 'researcher')
+workflow.add_edge('researcher', 'writer')
+workflow.add_edge('writer','reviewer')
+workflow.add_conditional_edges(
+    'reviewer',
+    should_continue,
+    {
+        'writer': 'writer',
+        'end': END
+    }
+)
+
+app = workflow.compile()
+
+result = app.invoke({
+                    "messages": [],
+                    "question": "What are the key benefits of deadlifts compared to squats for building overall strength?",
+                    "research_plan": "",
+                    "search_results": [],
+                    "draft_answer": "",
+                    "final_answer": "",
+                    "reviewer_comments": "",
+                    "iteration": 0,
+                    "max_iterations": 4,
+                    "is_approved": False,
+})
+
+print(" == Research Plan == ")
+print(result['research_plan'])
+print("\n == Final Answer == ")
+print(result['final_answer'])
+
