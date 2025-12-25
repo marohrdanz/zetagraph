@@ -68,3 +68,13 @@ But I'll tell ye true - the REAL treasure be the adventure itself, the salt spra
 
 Now, are ye lookin' for actual historical treasure hunting spots, or just enjoyin' the pirate spirit? ⚓🏴‍☠️
 ```
+
+
+## Third Example
+
+This example uses conditional logic: it decides if a web search is
+needed in order to answer the question, and follows a path based on that.
+
+```bash
+python third_graph.py
+```
