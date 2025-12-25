@@ -5,6 +5,7 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from typing import TypedDict, Literal
 from langgraph.graph import StateGraph, END
 from os import getenv
+from ddgs import DDGS
 
 load_dotenv()
 logger = log_setup.configure_logging()
@@ -35,11 +36,22 @@ def analyze_question(state: AnalysisState) -> AnalysisState:
     return state
 
 def search_node(state: AnalysisState) -> AnalysisState:
-    """Simulate a web search."""
-    ## to be relplaced with actual search logic
-    state["answer"] = f"Search results for: {state['search_query']}"
-    logger.debug("Faked a search operation.")
-    return state
+    """Search the web using DuckDuckGo."""
+    max_results = 4
+    try:
+        with DDGS() as ddgs:
+            results = list(ddgs.text(state['search_query'], max_results=max_results))
+            for i, result  in enumerate(results):
+                logger.debug(f"Result {i}")
+                logger.debug(f"  Title: {result['title']}")
+                logger.debug(f"  From: {result['href']}")
+                logger.debug(f"  Body: {result['body']}")
+            state["answer"] = f"Here are {len(results)} search results from DuckDuckGo:\n" + \
+                   "\n".join([f"{i+1}. {result['title']} - {result['href']}" for i, result in enumerate(results)])
+            return state
+    except Exception as e:
+        logger.error(f"Search failed: {e}")
+        return f"Search failed: {e}"
 
 def direct_answer_node(state: AnalysisState) -> AnalysisState:
     """Answer the question directly (no web search)."""
@@ -75,8 +87,10 @@ workflow.add_edge("direct_answer", END)
 app = workflow.compile()
 
 # Testing direct answer path
+question_direct = "What is 2 - 9?"
+print(f"Asking question: {question_direct}")
 result_direct = app.invoke({
-                           "question": "What is 2-9?}",
+                           "question": question_direct,
                            "needs_search": False,
                            "search_query": "",
                            "answer": ""
@@ -85,8 +99,10 @@ print(f"Direct answer result: {result_direct['answer']}")
 
 
 # Testing search path
+question_search = "What's the latest news in deep sea exploration?"
+print(f"Asking question: {question_search}")
 result2 = app.invoke({
-                     "question": "What's the latest news in space exploration?",
+                     "question": question_search,
                      "needs_search": False,
                      "search_uqery": "",
                      "answer": ""

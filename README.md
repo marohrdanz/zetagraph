@@ -78,3 +78,20 @@ needed in order to answer the question, and follows a path based on that.
 ```bash
 python third_graph.py
 ```
+
+Thies example uses DuckDuckGo for web searches, and I didn't take the time
+to optimize the search prompt, so the results are a bit hit-and-miss.
+
+Example output:
+
+```text
+Asking question: What is 2 - 9?
+Direct answer result: 2 - 9 = -7
+Asking question: What's the latest news in deep sea exploration?
+Search answer result: Here are 4 search results from DuckDuckGo:
+1. NOAA Ocean Exploration 2024 Expeditions - https://oceanexplorer.noaa.gov/expedition-2024-expeditions/
+2. The deep sea footage scientists filmed in 2024 is jaw-dropping - Mashable - https://mashable.com/article/deep-sea-ocean-discovery-2024
+3. Deep Sea Exploration Archives - Florida Institute of Oceanography - https://www.fio.usf.edu/tag/deep-sea-exploration/
+4. NOAA Ocean Exploration: Homepage - https://oceanexplorer.noaa.gov/
+```
+
