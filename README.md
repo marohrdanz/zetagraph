@@ -25,15 +25,25 @@ Sample usage and output:
 
 ```bash
 $ python first_graph.py 
+```
+
+Example output:
+
+```text
 Hello, Alice, or should I say, 'Hello World!'
 ```
 
 ## Second Example
 
-I get bored with the 'helpful assistant' trope, so made mine a sea pirate:
+This example actually invokes and LLM to get a response.
 
 ```bash
 $ python second_graph.py 
+```
+
+I get bored with the 'helpful assistant' trope, so made mine a sea pirate. Example output:
+
+```text
 Ahoy there, matey! If ye be seekin' buried treasure, here be some places to set yer sights:
 
 **The Classic Hunting Grounds:**
