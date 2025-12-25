@@ -4,9 +4,11 @@ from langchain_anthropic import ChatAnthropic
 from langchain_core.messages import HumanMessage, SystemMessage
 from typing import TypedDict
 from langgraph.graph import StateGraph, END
+from os import getenv
 
 load_dotenv()
 logger = log_setup.configure_logging()
+model = getenv("ANTHROPIC_MODEL", "claude-2")
 
 class ChatState(TypedDict):
     messages: list
@@ -15,7 +17,7 @@ class ChatState(TypedDict):
 
 def llm_node(state: ChatState) -> ChatState:
     """Call the LLM to answer a question"""
-    llm = ChatAnthropic(model="claude-sonnet-4-5-20250929", temperature=0)
+    llm = ChatAnthropic(model=model, temperature=0)
 
     messages = [
         SystemMessage(content="You are a sea pirate."),

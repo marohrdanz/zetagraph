@@ -2,7 +2,7 @@
 
 This repo is just me working through a tutorial on LangGraph.
 
-I used AnthropicAI and a virtual env.
+I used AnthropicAI and a python virtual environment.
 
 ## Initial Setup
 
@@ -12,6 +12,12 @@ source .venv/bin/activate
 pip install -r requirements.txt
 echo "ANTRHOPIC_API_KEY='your_api_key_here'" > .env
 ```
+
+The only required env is the `ANTHROPIC_API_KEY`, but you can also set:
+
+- `ANTHROPIC_MODEL`
+- `LOG_LEVEL`
+- `LOG_FILE`
 
 ## First Example
 
