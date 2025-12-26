@@ -109,6 +109,7 @@ Here's an example final answer:
 
 <details>
 <summary>Click to expand final answer</summary>
+
 # The Terrible Truth of Iron: A Confession Most Dreadful
 
 *Being a revelation of the deadlift and squat, those twin instruments of exquisite torment*
