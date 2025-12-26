@@ -1,6 +1,6 @@
 # Learning LangGraph
 
-This repo is just me working through a tutorial on LangGraph.
+This repo is just me working through a tutorial on [LangGraph](https://youtu.be/dQw4w9WgXcQ?si=UeIkoAnAljXxXQmS&t=44s).
 
 I used AnthropicAI and a python virtual environment.
 
