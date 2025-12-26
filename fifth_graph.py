@@ -1,4 +1,6 @@
 from dotenv import load_dotenv
+import textwrap
+import json
 import log_setup
 from langchain_anthropic import ChatAnthropic
 from langchain_core.messages import HumanMessage, SystemMessage
@@ -38,7 +40,7 @@ def planner_node(state: ResearchState) -> ResearchState:
     state['iteration'] = 0
     state['max_iterations'] = 3
     state['is_approved'] = False
-    logger.debug(f"Research plan:\n{state['research_plan']}")
+    logger.debug(f"Research plan:\n\n{textwrap.indent(state['research_plan'], '     ')}")
     return state
 
 def researcher_node(state: ResearchState) -> ResearchState:
@@ -52,8 +54,7 @@ def researcher_node(state: ResearchState) -> ResearchState:
         try:
             result = search.run(query)
             results.append(f"Query: {query}\nResults: {result}\n")
-            logger.debug(f"Search results for '{query}'")
-            logger.debug(f"  {result}")
+            logger.debug(f"Search results for '{query}'\n\n{textwrap.indent(result, '     ')}")
         except Exception as e:
             logger.error(f"Search.run failed for {query}: {e}")
             results.append(f"Query: {query}\nResults: no results found.\n")
@@ -72,13 +73,13 @@ def writer_node(state: ResearchState) -> ResearchState:
             Previous draft (needs improvement):
             {state['draft_answer']}
          """
-        logger.warning(f"Incorporating reviewer feedback: {feedback_context}")
+        logger.warning(f"Incorporating reviewer feedback:\n\n{textwrap.indent(feedback_context, '     ')}")
     prompt = f"""Based on the following research, write a comprehensive answer to the question.
               Question: {state['question']}
               Research: {research_context}
                         {feedback_context}
               Provide a clear, well structured answer, and write your response as if you were slashdot commenter."""
-    logger.debug(f"Writer prompt: {prompt}")
+    logger.debug(f"Writer prompt:\n\n{textwrap.indent(prompt, '     ')}")
     response = llm.invoke([HumanMessage(content=prompt)])
     state['draft_answer'] = response.content
     state['iteration'] += 1
@@ -97,16 +98,15 @@ def reviewer_node(state: ResearchState) -> ResearchState:
     response = llm.invoke([HumanMessage(content=prompt)])
     
     if "APPROVED" in response.content.upper() and "NEEDS_REVISION" not in response.content.upper():
-        logger.info(f"Answer approved: {response.content}")
+        logger.info(f"Answer approved by AI. Comments from AI:\n\n{textwrap.indent(response.content, '     ')}")
         state['final_answer'] = state['draft_answer']
         state['is_approved'] = True
         state['reviewer_comments'] = ""
     else:
-        logger.info(f"Answer not approved: {response.content}")
+        logger.warning(f"Answer not approved by AI. Comments from AI:\n\n{textwrap.indent(response.content, '     ')}")
         state['is_approved'] = False
         if "COMMENTS:" in response.content:
             comments = response.content.split("COMMENTS:", 1)[-1].strip()
-            logger.warning(f"Adding reviewer comments to state: {comments}")
             state['reviewer_comments'] = comments
         else:
             logger.warning("No COMMENTS found in reviewer response; adding default comment.")
@@ -116,16 +116,18 @@ def reviewer_node(state: ResearchState) -> ResearchState:
 
 def human_approval_node(state: ResearchState) -> ResearchState:
     """Wait for human approva."""
-    print(f"\nDraft Answer:\n{state['draft_answer']}\n")
+    print(f"\nHere is the current draft answer:\n\n{textwrap.indent(state['draft_answer'], '     ')}\n\n")
     aproval = input("Do you approve this answer? (y/n): ")
 
     if aproval.lower() == 'y':
         state['final_answer'] = state['draft_answer']
         state['is_approved'] = True
     else:
-        feedback_context = input("What should be improved?")
-        state['is_approved'] = False
+        feedback_context = input("What should be improved? (Type feedback, or leave blank to use AI review comments): ")
+        if feedback_context.strip() == "":
+            feedback_context = state.get('reviewer_comments', 'No specific comments provided.')
         state['reviewer_comments'] = feedback_context
+        state['is_approved'] = False
     return state
 
 def should_continue(state: ResearchState) -> Literal["writer", "end"]:
@@ -160,16 +162,9 @@ workflow.add_conditional_edges(
     }
 )
 
-app = workflow.compile(checkpointer=memory, interrupt_before=["human_approval"])
+app = workflow.compile()
 
-config = {
-        "configurable": {
-            "thread_id": "1"
-        }
-}
-
-#result = app.invoke({
-for chunk in app.stream({
+result = app.invoke({
                     "messages": [],
                     "question": "What are the benefits of deadlifts and squats for building overall strength?",
                     "research_plan": "",
@@ -180,7 +175,7 @@ for chunk in app.stream({
                     "iteration": 0,
                     "max_iterations": 10,
                     "is_approved": False,
-}, config):
-    logger.info(f"Received chunk: {chunk}")
-    print(f"Step: {list(chunk.keys())[0]}")
+})
+logger.debug(json.dumps(result, indent=2))
+print(f"\nFinal Answer:\n{result['final_answer']}\n")
 

@@ -205,3 +205,167 @@ The answer should be rewritten to include:
 
 The current version is well-written formal prose, but reads nothing like "The Tell-Tale Heart," "The Raven," or "The Fall of the House of Usher."
 </details>
+
+
+## Fifth Example: Human in the loop
+
+This very basic example prompts for human input before final acceptance. The human
+can approve or not. If not approved, the human can give feedback to the LLM to try again or
+use the feedback from the LLM review to try again.
+
+```bash
+python fifth_graph.py
+```
+
+Example full output:
+
+<details>
+<summary>Click to expand full output</summary>
+$ python fifth_graph.py</br>
+
+17:16:01 WARNING - fifth_graph.py:106 reviewer_node - Answer not approved by AI. Comments from AI:
+
+     DECISION: NEEDS_REVISION
+
+     COMMENTS: The answer is accurate and complete regarding the benefits of deadlifts and squats, but it's written in a polished blog/article style, NOT like a Slashdot commenter. Slashdot comments are typically:
+
+     - More conversational and casual
+     - Often snarky or include tech/geek references
+     - Less formally structured (no perfect markdown headers)
+     - Include personal anecdotes or opinions stated as facts
+     - Sometimes reference other comments or have meta-commentary
+     - Use phrases like "RTFA", "In Soviet Russia...", car analogies, Beowulf clusters, etc.
+     - More stream-of-consciousness, less editorial polish
+
+     The content needs to be rewritten to sound like an actual forum comment, not a polished article. Something more like: "So yeah, squats and deadlifts are basically the kernel of any strength program - everything else is just userspace fluff. The compound movement thing isn't just broscience, the research actually backs it up. Multiple muscle groups, heavy weights, functional strength that actually matters IRL. Sure, isolation exercises have their place (like patches for specific bugs), but if you're not doing the big lifts first, you're basically trying to optimize before you have a working build..."
+
+     That kind of tone and structure would be more appropriate for a Slashdot-style comment.
+
+Here is the current draft answer:
+
+     # Deadlifts and Squats: The Heavy Hitters of Strength Training
+
+     **TL;DR:** Squats and deadlifts are compound movements that activate multiple muscle groups simultaneously, making them incredibly efficient for building overall strength. The research shows they're not just gym bro mythology - they actually deliver results.
+
+     ## Why These Lifts Dominate
+
+     The key advantage here is that both exercises are **compound movements** - they incorporate multiple joints and large muscle groups in a single lift. This isn't just about efficiency; it's about functional strength that actually translates to real-world performance.
+
+     According to the research, there's considerable overlap in muscle activation between deadlifts and squats, but also some important differences. Squats excel particularly at building lower body strength and quadriceps hypertrophy, while also improving knee stability. Both movements allow you to lift heavier weights than isolation exercises, which leads to significant improvements in overall strength.
+
+     ## The Compound vs. Isolation Debate
+
+     Here's where it gets interesting: the research suggests there's "no consistent trend suggesting compound lifts are better or worse than isolation exercises" for pure muscle building. They appear to be similarly effective in that regard. **However**, compound movements like squats and deadlifts have advantages beyond just hypertrophy:
+
+     - They challenge multiple muscle groups simultaneously
+     - They improve functional strength and athletic performance
+     - They're particularly effective for movements requiring power generation
+     - Some studies indicate they may increase growth hormone and testosterone release more than other exercises
+
+     ## The Practical Approach
+
+     The consensus seems to be: **start with compound lifts to maximize strength and progress, then use isolation exercises to add detail, balance, and address lagging muscle groups**. It's not either/or - it's about strategic programming.
+
+     For athletes specifically, these movements provide unmatched transfer to sports performance, particularly for explosive power generation. They're also highly effective for improving mobility and overall athletic performance.
+
+     **Bottom line:** If you're serious about building overall strength, squats and deadlifts should be foundational movements in your program. The science backs up what powerlifters have known for decades.
+
+
+Do you approve this answer? (y/n): n</br>
+
+What should be improved? (Type feedback, or leave blank to use AI review comments): </br>
+
+17:16:21 WARNING - fifth_graph.py:76 writer_node - Incorporating reviewer feedback:
+
+
+                 IMPORTANT - Previous feedback to address:
+                 The answer is accurate and complete regarding the benefits of deadlifts and squats, but it's written in a polished blog/article style, NOT like a Slashdot commenter. Slashdot comments are typically:
+
+     - More conversational and casual
+     - Often snarky or include tech/geek references
+     - Less formally structured (no perfect markdown headers)
+     - Include personal anecdotes or opinions stated as facts
+     - Sometimes reference other comments or have meta-commentary
+     - Use phrases like "RTFA", "In Soviet Russia...", car analogies, Beowulf clusters, etc.
+     - More stream-of-consciousness, less editorial polish
+
+     The content needs to be rewritten to sound like an actual forum comment, not a polished article. Something more like: "So yeah, squats and deadlifts are basically the kernel of any strength program - everything else is just userspace fluff. The compound movement thing isn't just broscience, the research actually backs it up. Multiple muscle groups, heavy weights, functional strength that actually matters IRL. Sure, isolation exercises have their place (like patches for specific bugs), but if you're not doing the big lifts first, you're basically trying to optimize before you have a working build..."
+
+     That kind of tone and structure would be more appropriate for a Slashdot-style comment.
+                 Previous draft (needs improvement):
+                 # Deadlifts and Squats: The Heavy Hitters of Strength Training
+
+     **TL;DR:** Squats and deadlifts are compound movements that activate multiple muscle groups simultaneously, making them incredibly efficient for building overall strength. The research shows they're not just gym bro mythology - they actually deliver results.
+
+     ## Why These Lifts Dominate
+
+     The key advantage here is that both exercises are **compound movements** - they incorporate multiple joints and large muscle groups in a single lift. This isn't just about efficiency; it's about functional strength that actually translates to real-world performance.
+
+     According to the research, there's considerable overlap in muscle activation between deadlifts and squats, but also some important differences. Squats excel particularly at building lower body strength and quadriceps hypertrophy, while also improving knee stability. Both movements allow you to lift heavier weights than isolation exercises, which leads to significant improvements in overall strength.
+
+     ## The Compound vs. Isolation Debate
+
+     Here's where it gets interesting: the research suggests there's "no consistent trend suggesting compound lifts are better or worse than isolation exercises" for pure muscle building. They appear to be similarly effective in that regard. **However**, compound movements like squats and deadlifts have advantages beyond just hypertrophy:
+
+     - They challenge multiple muscle groups simultaneously
+     - They improve functional strength and athletic performance
+     - They're particularly effective for movements requiring power generation
+     - Some studies indicate they may increase growth hormone and testosterone release more than other exercises
+
+     ## The Practical Approach
+
+     The consensus seems to be: **start with compound lifts to maximize strength and progress, then use isolation exercises to add detail, balance, and address lagging muscle groups**. It's not either/or - it's about strategic programming.
+
+     For athletes specifically, these movements provide unmatched transfer to sports performance, particularly for explosive power generation. They're also highly effective for improving mobility and overall athletic performance.
+
+     **Bottom line:** If you're serious about building overall strength, squats and deadlifts should be foundational movements in your program. The science backs up what powerlifters have known for decades.
+         
+17:16:43  INFO - fifth_graph.py:101 reviewer_node - Answer approved by AI. Comments from AI:
+
+     DECISION: APPROVED
+
+     COMMENTS: This answer nails the Slashdot commenter style perfectly. It has all the hallmarks:
+
+     - Tech analogies ("kernel," "userspace fluff," "like writing good code")
+     - Self-credentialing ("I've been lifting for about 15 years")
+     - Anticipating flamewars ("here's the interesting bit that'll probably start a flamewar")
+     - Dismissive of mainstream/commercial fitness ("Instagram fitness influencers")
+     - Mix of actual knowledge with opinion presented as fact
+     - Casual tone with some snark ("amirite?" "don't be that guy")
+     - Preemptive defense against criticism ("I'm sure someone will reply and tell me those studies are garbage")
+     - The "well, there's your answer" condescending closer
+
+     The content is accurate regarding the benefits of compound lifts (multiple muscle groups, heavier loads, functional strength, posterior chain vs quad emphasis). The nuance about compounds vs isolation for hypertrophy is correctly noted, and the advice about programming (compounds first, then isolation) is sound. The caveat about form is appropriate.
+
+     The answer is complete enough for the question asked - covers strength benefits, muscle activation, hormonal response, practical programming, and athletic transfer. It's written exactly like a knowledgeable but slightly arrogant Slashdot regular would respond.
+
+Here is the current draft answer:
+
+     Look, I've been lifting for about 15 years now and the research basically confirms what anyone who's actually spent time under a barbell already knows - squats and deadlifts are the kernel of any serious strength program. Everything else is just userspace fluff.
+
+     The compound movement thing isn't broscience anymore, it's actually backed by data. Multiple muscle groups activated simultaneously, heavier loads than you can move with isolation work, and functional strength that actually matters when you need to move heavy stuff IRL (like server racks, amirite?). There's overlap in muscle activation between the two lifts but also differences - squats hammer your quads and knee stability more, deadlifts hit the posterior chain harder.
+
+     Now here's the interesting bit that'll probably start a flamewar: the research says compound vs isolation exercises are "similarly effective" for pure muscle building. BUT (and it's a big but), compounds let you move way heavier weight and that's where the real strength gains come from. Plus some studies show they spike growth hormone and testosterone more than isolation work, though I'm sure someone will reply and tell me those studies are garbage.
+
+     The practical approach that actually works? Do your heavy compounds first when you're fresh - squat, deadlift, maybe bench and overhead press. THEN use isolation stuff to fix weak points or lagging muscle groups. It's like writing good code - get the core architecture right first, then optimize the details. You don't start by micro-optimizing functions before you have a working program.
+
+     For athletic performance the transfer is huge. Power generation, mobility, the whole package. Way more useful than being able to do perfect cable flyes or whatever the Instagram fitness influencers are pushing this week.
+
+     So yeah, if you're not doing these lifts and wondering why you're weak... well, there's your answer. Form matters though - don't be that guy loading 405 on the bar for half-rep squats. Nobody's impressed.
+
+
+Do you approve this answer? (y/n): y
+
+Final Answer:
+Look, I've been lifting for about 15 years now and the research basically confirms what anyone who's actually spent time under a barbell already knows - squats and deadlifts are the kernel of any serious strength program. Everything else is just userspace fluff.
+
+The compound movement thing isn't broscience anymore, it's actually backed by data. Multiple muscle groups activated simultaneously, heavier loads than you can move with isolation work, and functional strength that actually matters when you need to move heavy stuff IRL (like server racks, amirite?). There's overlap in muscle activation between the two lifts but also differences - squats hammer your quads and knee stability more, deadlifts hit the posterior chain harder.
+
+Now here's the interesting bit that'll probably start a flamewar: the research says compound vs isolation exercises are "similarly effective" for pure muscle building. BUT (and it's a big but), compounds let you move way heavier weight and that's where the real strength gains come from. Plus some studies show they spike growth hormone and testosterone more than isolation work, though I'm sure someone will reply and tell me those studies are garbage.
+
+The practical approach that actually works? Do your heavy compounds first when you're fresh - squat, deadlift, maybe bench and overhead press. THEN use isolation stuff to fix weak points or lagging muscle groups. It's like writing good code - get the core architecture right first, then optimize the details. You don't start by micro-optimizing functions before you have a working program.
+
+For athletic performance the transfer is huge. Power generation, mobility, the whole package. Way more useful than being able to do perfect cable flyes or whatever the Instagram fitness influencers are pushing this week.
+
+So yeah, if you're not doing these lifts and wondering why you're weak... well, there's your answer. Form matters though - don't be that guy loading 405 on the bar for half-rep squats. Nobody's impressed.
+</details>
