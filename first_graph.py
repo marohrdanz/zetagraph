@@ -36,3 +36,7 @@ app = workflow.compile()
 result = app.invoke({"message": "Alice", "resonse": ""})
 print(result["response"])
 logger.info("Final response: %s", result["response"])
+
+mermaid_code = app.get_graph().draw_mermaid()
+print("\nMermaid Diagram:\n")
+print(mermaid_code)

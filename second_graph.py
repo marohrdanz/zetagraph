@@ -43,3 +43,7 @@ result = app.invoke({
                      })
 print(result["answer"])
 logger.info("Final answer: %s", result["answer"])
+
+mermaid_code = app.get_graph().draw_mermaid()
+print("\nMermaid Diagram:\n")
+print(mermaid_code)

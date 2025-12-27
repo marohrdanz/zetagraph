@@ -27,6 +27,21 @@ Sample usage and output:
 python first_graph.py 
 ```
 
+Graph architecture:
+
+```mermaid
+%%{init: {'theme':'neutral'}}%%
+graph TD;
+	__start__([<p>__start__</p>]):::first
+	greeter(greeter)
+	__end__([<p>__end__</p>]):::last
+	__start__ --> greeter;
+	greeter --> __end__;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc
+```npm outdated -g mermaid-filter
+
 Example output:
 
 ```text
@@ -39,6 +54,21 @@ This example actually invokes and LLM to get a response.
 
 ```bash
 python second_graph.py 
+```
+
+Graph architecture:
+
+```mermaid
+%%{init: {'theme':'neutral'}}%%
+graph TD;
+	__start__([<p>__start__</p>]):::first
+	llm(llm)
+	__end__([<p>__end__</p>]):::last
+	__start__ --> llm;
+	llm --> __end__;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc
 ```
 
 I get bored with the 'helpful assistant' trope, so made mine a sea pirate. Example output:
@@ -79,6 +109,26 @@ needed in order to answer the question, and follows a path based on that.
 python third_graph.py
 ```
 
+Graph architecture:
+
+```mermaid
+%%{init: {'theme':'neutral'}}%%
+graph TD;
+	__start__([<p>__start__</p>]):::first
+	analyze_question(analyze_question)
+	search(search)
+	direct_answer(direct_answer)
+	__end__([<p>__end__</p>]):::last
+	__start__ --> analyze_question;
+	analyze_question -.-> direct_answer;
+	analyze_question -.-> search;
+	direct_answer --> __end__;
+	search --> __end__;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc
+```
+
 Thies example uses DuckDuckGo for web searches, and I didn't take the time
 to optimize the search prompt, so the results are a bit hit-and-miss.
 
@@ -103,6 +153,28 @@ style of Edgar Allan Poe.
 
 ```bash
 python fourth_graph.py
+```
+
+Graph architecture:
+
+```mermaid
+%%{init: {'theme':'neutral'}}%%
+graph TD;
+	__start__([<p>__start__</p>]):::first
+	planner(planner)
+	researcher(researcher)
+	writer(writer)
+	reviewer(reviewer)
+	__end__([<p>__end__</p>]):::last
+	__start__ --> planner;
+	planner --> researcher;
+	researcher --> writer;
+	reviewer -. &nbsp;end&nbsp; .-> __end__;
+	reviewer -.-> writer;
+	writer --> reviewer;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc
 ```
 
 Here's an example final answer:

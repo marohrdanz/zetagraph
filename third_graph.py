@@ -108,3 +108,7 @@ result2 = app.invoke({
                      "answer": ""
 })
 print(f"Search answer result: {result2['answer']}")
+
+mermaid_code = app.get_graph().draw_mermaid()
+print("\nMermaid Diagram:\n")
+print(mermaid_code)

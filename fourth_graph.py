@@ -8,6 +8,7 @@ from os import getenv
 from ddgs import DDGS
 from langchain_community.tools import DuckDuckGoSearchRun
 from langgraph.graph.message import add_messages
+from langgraph.graph import StateGraph
 
 load_dotenv()
 logger = log_setup.configure_logging()
@@ -162,3 +163,6 @@ print(result['research_plan'])
 print("\n == Final Answer == ")
 print(result['final_answer'])
 
+mermaid_code = app.get_graph().draw_mermaid()
+print("\nMermaid Diagram:\n")
+print(mermaid_code)

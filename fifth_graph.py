@@ -11,6 +11,7 @@ from ddgs import DDGS
 from langchain_community.tools import DuckDuckGoSearchRun
 from langgraph.graph.message import add_messages
 from langgraph.checkpoint.memory import MemorySaver
+from langgraph.graph import StateGraph
 
 load_dotenv()
 logger = log_setup.configure_logging()
@@ -179,3 +180,6 @@ result = app.invoke({
 logger.debug(json.dumps(result, indent=2))
 print(f"\nFinal Answer:\n{result['final_answer']}\n")
 
+mermaid_code = app.get_graph().draw_mermaid()
+print("\nMermaid Diagram:\n")
+print(mermaid_code)
