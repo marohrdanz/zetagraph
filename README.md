@@ -30,7 +30,8 @@ python first_graph.py
 Graph architecture:
 
 ```mermaid
-%%{init: {'theme':'neutral'}}%%
+%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#4493f8','primaryTextColor':'#fff','primaryBorderColor':'#1f6feb','lineColor':'#8b949e','secondaryColor':'#30363d','tertiaryColor':'#161b22'}}}%%
+
 graph TD;
 	__start__([<p>__start__</p>]):::first
 	greeter(greeter)
@@ -40,7 +41,7 @@ graph TD;
 	classDef default fill:#f2f0ff,line-height:1.2
 	classDef first fill-opacity:0
 	classDef last fill:#bfb6fc
-```npm outdated -g mermaid-filter
+```
 
 Example output:
 
