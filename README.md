@@ -140,8 +140,7 @@ to optimize the search prompt, so the results are a bit hit-and-miss.
 
 Example output:
 
-<details>
-<summary>Click to expand full output</summary>
+```text
 $ python third_graph.py
 Asking question: What is 2 - 9?
 14:16:56  INFO - third_graph.py:70 route_question - Routing to direct answer node.
@@ -154,7 +153,7 @@ Search answer result: Here are 4 search results from DuckDuckGo:
 2. What’s the Latest in Deep Sea Exploration Technology and - https://westsidelounge.com/news/whats-the-latest-in-deep-sea-exploration-technology-and-its-impact-on-uk-research.php
 3. Future of deep-sea mining stands at a crucial juncture - https://phys.org/news/2024-11-future-deep-sea-crucial-juncture.html
 4. Research team discovers more than 50 potentially new deep-sea - https://phys.org/news/2024-04-team-potentially-deep-sea-species.html
-</details>
+```
 
 
 ## Fourth Example: Iterative refinement with reviewer feedback
