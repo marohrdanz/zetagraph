@@ -32,6 +32,7 @@ def analyze_question(state: AnalysisState) -> AnalysisState:
         query_prompt = f"Generate a concise search query for: {state['question']}"
         query_response = llm.invoke([HumanMessage(content=query_prompt)])
         state["search_query"] = query_response.content
+        logger.info("Question requires search.")
 
     return state
 
@@ -64,7 +65,9 @@ def direct_answer_node(state: AnalysisState) -> AnalysisState:
 def route_question(state: AnalysisState) -> Literal["search", "direct_answer"]:
     """Conditional routing based on whether or not a search is needed."""
     if state["needs_search"]:
+        logger.info("Routing to search node.")
         return "search"
+    logger.info("Routing to direct answer node.")
     return "direct_answer"
 
 # Build graph

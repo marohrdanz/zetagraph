@@ -50,7 +50,8 @@ Hello, Alice, or should I say, 'Hello World!'
 
 ## Second Example
 
-This example actually invokes and LLM to get a response.
+This example actually invokes and LLM to get a response to the question "Where can
+I find buried treasure?"
 
 ```bash
 python second_graph.py 
@@ -105,6 +106,11 @@ Now, are ye lookin' for actual historical treasure hunting spots, or just enjoyi
 This example uses conditional logic: it decides if a web search is
 needed in order to answer the question, and follows a path based on that.
 
+The example questions are:
+
+1. What is 2 - 9?
+2. What's the latest news in deep sea exploration?
+
 ```bash
 python third_graph.py
 ```
@@ -134,16 +140,22 @@ to optimize the search prompt, so the results are a bit hit-and-miss.
 
 Example output:
 
-```text
+<details>
+<summary>Click to expand full output</summary>
+$ python third_graph.py
 Asking question: What is 2 - 9?
+14:16:56  INFO - third_graph.py:70 route_question - Routing to direct answer node.
 Direct answer result: 2 - 9 = -7
 Asking question: What's the latest news in deep sea exploration?
+14:17:03  INFO - third_graph.py:35 analyze_question - Question requires search.
+14:17:03  INFO - third_graph.py:68 route_question - Routing to search node.
 Search answer result: Here are 4 search results from DuckDuckGo:
-1. NOAA Ocean Exploration 2024 Expeditions - https://oceanexplorer.noaa.gov/expedition-2024-expeditions/
-2. The deep sea footage scientists filmed in 2024 is jaw-dropping - Mashable - https://mashable.com/article/deep-sea-ocean-discovery-2024
-3. Deep Sea Exploration Archives - Florida Institute of Oceanography - https://www.fio.usf.edu/tag/deep-sea-exploration/
-4. NOAA Ocean Exploration: Homepage - https://oceanexplorer.noaa.gov/
-```
+1. deep sea mining News and Opinion | Common Dreams - https://www.commondreams.org/tag/deep-sea-mining
+2. What’s the Latest in Deep Sea Exploration Technology and - https://westsidelounge.com/news/whats-the-latest-in-deep-sea-exploration-technology-and-its-impact-on-uk-research.php
+3. Future of deep-sea mining stands at a crucial juncture - https://phys.org/news/2024-11-future-deep-sea-crucial-juncture.html
+4. Research team discovers more than 50 potentially new deep-sea - https://phys.org/news/2024-04-team-potentially-deep-sea-species.html
+</details>
+
 
 ## Fourth Example: Iterative refinement with reviewer feedback
 
