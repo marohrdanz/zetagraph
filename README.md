@@ -217,6 +217,29 @@ use the feedback from the LLM review to try again.
 python fifth_graph.py
 ```
 
+Graph architecture:
+
+```mermaid
+graph TD;
+	__start__([<p>__start__</p>]):::first
+	planner(planner)
+	researcher(researcher)
+	writer(writer)
+	reviewer(reviewer)
+	human_approval(human_approval)
+	__end__([<p>__end__</p>]):::last
+	__start__ --> planner;
+	human_approval -. &nbsp;end&nbsp; .-> __end__;
+	human_approval -.-> writer;
+	planner --> researcher;
+	researcher --> writer;
+	reviewer --> human_approval;
+	writer --> reviewer;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc
+```
+
 Example full output:
 
 <details>
