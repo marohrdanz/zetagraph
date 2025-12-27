@@ -220,6 +220,7 @@ python fifth_graph.py
 Graph architecture:
 
 ```mermaid
+%%{init: {'theme':'neutral'}}%%
 graph TD;
 	__start__([<p>__start__</p>]):::first
 	planner(planner)
