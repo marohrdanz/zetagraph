@@ -30,7 +30,7 @@ python first_graph.py
 Graph architecture:
 
 ```mermaid
-%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#4493f8','primaryTextColor':'#fff','primaryBorderColor':'#1f6feb','lineColor':'#8b949e','secondaryColor':'#30363d','tertiaryColor':'#161b22'}}}%%
+%%{init: {'theme':'neutral'}}%%
 graph TD;
 	__start__([<p>__start__</p>]):::first
 	greeter(greeter)
