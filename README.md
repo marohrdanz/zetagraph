@@ -136,22 +136,20 @@ graph TD;
 Thies example uses DuckDuckGo for web searches, and I didn't take the time
 to optimize the search prompt, so the results are a bit hit-and-miss.
 
-Example output:
 
 <details>
 <summary>Click to show/hide example output</summary>
-<br>
-Asking question: What is 2 - 9?
-14:16:56  INFO - third_graph.py:70 route_question - Routing to direct answer node.
-Direct answer result: 2 - 9 = -7
-Asking question: What's the latest news in deep sea exploration?
-14:17:03  INFO - third_graph.py:35 analyze_question - Question requires search.
-14:17:03  INFO - third_graph.py:68 route_question - Routing to search node.
-Search answer result: Here are 4 search results from DuckDuckGo:
-1. deep sea mining News and Opinion | Common Dreams - https://www.commondreams.org/tag/deep-sea-mining
-2. What’s the Latest in Deep Sea Exploration Technology and - https://westsidelounge.com/news/whats-the-latest-in-deep-sea-exploration-technology-and-its-impact-on-uk-research.php
-3. Future of deep-sea mining stands at a crucial juncture - https://phys.org/news/2024-11-future-deep-sea-crucial-juncture.html
-4. Research team discovers more than 50 potentially new deep-sea - https://phys.org/news/2024-04-team-potentially-deep-sea-species.html
+<br>Asking question: What is 2 - 9?
+<br>14:16:56  INFO - third_graph.py:70 route_question - Routing to direct answer node.
+<br>Direct answer result: 2 - 9 = -7
+<br>Asking question: What's the latest news in deep sea exploration?
+<br>14:17:03  INFO - third_graph.py:35 analyze_question - Question requires search.
+<br>14:17:03  INFO - third_graph.py:68 route_question - Routing to search node.
+<br>Search answer result: Here are 4 search results from DuckDuckGo:
+<br>1. deep sea mining News and Opinion | Common Dreams - https://www.commondreams.org/tag/deep-sea-mining
+<br>2. What’s the Latest in Deep Sea Exploration Technology and - https://westsidelounge.com/news/whats-the-latest-in-deep-sea-exploration-technology-and-its-impact-on-uk-research.php
+<br>3. Future of deep-sea mining stands at a crucial juncture - https://phys.org/news/2024-11-future-deep-sea-crucial-juncture.html
+<br>4. Research team discovers more than 50 potentially new deep-sea - https://phys.org/news/2024-04-team-potentially-deep-sea-species.html
 </details>
 
 ## Fourth Example: Iterative Refinement
