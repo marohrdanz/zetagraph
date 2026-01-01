@@ -130,7 +130,7 @@ graph TD;
 	classDef last fill:#bfb6fc
 ```
 
-Thies example uses DuckDuckGo for web searches, and I didn't take the time
+These example uses DuckDuckGo for web searches, and I didn't take the time
 to optimize the search prompt, so the results are a bit hit-and-miss.
 
 
