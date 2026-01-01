@@ -43,14 +43,11 @@ graph TD;
 	classDef last fill:#bfb6fc
 ```
 
-Output:
-
-```text
-```
-
 ## Second Example: Invoke an LLM
 
-This example actually invokes and LLM to get a response to the question: **"Where can I find buried treasure?"**
+This example actually invokes and LLM to get a response to the question:
+
+> **Where can I find buried treasure?**
 
 ```bash
 $ python second_graph.py 
@@ -155,8 +152,10 @@ to optimize the search prompt, so the results are a bit hit-and-miss.
 ## Fourth Example: Iterative Refinement
 
 Building on previous examples, this graph works like a research assistant, refining an answer to the question
-**What are the benefits of deadlifts and squats for building overall strength?** and responding in the
-**style of Edgar Allan Poe**.
+
+> **What are the benefits of deadlifts and squats for building overall strength?**
+
+and responding in the **style of Edgar Allan Poe**.
 
 ```bash
 $ python fourth_graph.py
@@ -290,7 +289,10 @@ AI review. The human can read the draft response and AI feedback, then decide to
 the draft answer. If the answer is rejected, the human can provide feedback for refinement, or use the
 AI's feedback for refinement.
 
-The question is the same as above: **"What are the benefits of deadlifts and squats for building overall strength?"**
+The question is the same as above:
+
+> **What are the benefits of deadlifts and squats for building overall strength?**
+
 but this time the AI is to respond in the **style of a slashdot commenter.**
 
 ```bash
