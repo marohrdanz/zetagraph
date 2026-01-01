@@ -19,12 +19,13 @@ The only required env is the `ANTHROPIC_API_KEY`, but you can also set:
 - `LOG_LEVEL`
 - `LOG_FILE`
 
-## First Example
+## First Example: Hello World!
 
-Sample usage and output:
+This is my "Hello world!" example.
 
 ```bash
-python first_graph.py 
+$ python first_graph.py
+Hello, Alice, or should I say, 'Hello World!'
 ```
 
 Graph architecture:
@@ -42,19 +43,17 @@ graph TD;
 	classDef last fill:#bfb6fc
 ```
 
-Example output:
+Output:
 
 ```text
-Hello, Alice, or should I say, 'Hello World!'
 ```
 
-## Second Example
+## Second Example: Invoke an LLM
 
-This example actually invokes and LLM to get a response to the question "Where can
-I find buried treasure?"
+This example actually invokes and LLM to get a response to the question: **"Where can I find buried treasure?"**
 
 ```bash
-python second_graph.py 
+$ python second_graph.py 
 ```
 
 Graph architecture:
@@ -72,9 +71,11 @@ graph TD;
 	classDef last fill:#bfb6fc
 ```
 
-I get bored with the 'helpful assistant' trope, so made mine a sea pirate. Example output:
+I get bored with the 'helpful assistant' trope, so made mine a sea pirate.
 
-```text
+<details>
+<summary>Click to show/hide example output</summary>
+<br>
 Ahoy there, matey! If ye be seekin' buried treasure, here be some places to set yer sights:
 
 **The Classic Hunting Grounds:**
@@ -98,21 +99,18 @@ Keep yer eyes peeled for:
 But I'll tell ye true - the REAL treasure be the adventure itself, the salt spray on yer face, and the freedom of the open seas! 
 
 Now, are ye lookin' for actual historical treasure hunting spots, or just enjoyin' the pirate spirit? ⚓🏴‍☠️
-```
+</details>
 
+## Third Example: Conditional Logic and Web Search
 
-## Third Example
+This example uses conditional logic to decide if a web search is required
+to answer the questions:
 
-This example uses conditional logic: it decides if a web search is
-needed in order to answer the question, and follows a path based on that.
-
-The example questions are:
-
-1. What is 2 - 9?
-2. What's the latest news in deep sea exploration?
+1. **What is 2 - 9?**
+2. **What's the latest news in deep sea exploration?**
 
 ```bash
-python third_graph.py
+$ python third_graph.py
 ```
 
 Graph architecture:
@@ -140,8 +138,9 @@ to optimize the search prompt, so the results are a bit hit-and-miss.
 
 Example output:
 
-```text
-$ python third_graph.py
+<details>
+<summary>Click to show/hide example output</summary>
+<br>
 Asking question: What is 2 - 9?
 14:16:56  INFO - third_graph.py:70 route_question - Routing to direct answer node.
 Direct answer result: 2 - 9 = -7
@@ -153,17 +152,16 @@ Search answer result: Here are 4 search results from DuckDuckGo:
 2. What’s the Latest in Deep Sea Exploration Technology and - https://westsidelounge.com/news/whats-the-latest-in-deep-sea-exploration-technology-and-its-impact-on-uk-research.php
 3. Future of deep-sea mining stands at a crucial juncture - https://phys.org/news/2024-11-future-deep-sea-crucial-juncture.html
 4. Research team discovers more than 50 potentially new deep-sea - https://phys.org/news/2024-04-team-potentially-deep-sea-species.html
-```
+</details>
 
+## Fourth Example: Iterative Refinement
 
-## Fourth Example: Iterative refinement with reviewer feedback
-
-This example works like a research assistant, refining answer to the question
-"What are the benefits of deadlifts and squats for building overall strength?", and responding in the
-style of Edgar Allan Poe.
+Building on previous examples, this graph works like a research assistant, refining an answer to the question
+**What are the benefits of deadlifts and squats for building overall strength?** and responding in the
+**style of Edgar Allan Poe**.
 
 ```bash
-python fourth_graph.py
+$ python fourth_graph.py
 ```
 
 Graph architecture:
@@ -188,11 +186,9 @@ graph TD;
 	classDef last fill:#bfb6fc
 ```
 
-Here's an example final answer:
-
 <details>
-<summary>Click to expand final answer</summary>
-
+<summary>Click to show/hide final answer</summary>
+<br>
 # The Terrible Truth of Iron: A Confession Most Dreadful
 
 *Being a revelation of the deadlift and squat, those twin instruments of exquisite torment*
@@ -262,10 +258,9 @@ Let those who seek strength approach the barbell with proper dread, for in these
 **—Finis—**
 </details>
 
-And here's an example of some of it's reviewer feedback during iterations:
-
 <details>
-<summary>Click to expand reviewer feedback</summary>
+<summary>Click to show/hide AI reviewer feedback</summary>
+<br>
             IMPORTANT - Previous feedback to address:
             While the answer is accurate and comprehensive regarding the benefits of deadlifts and squats, it is NOT written in the style of Edgar Allan Poe. The current style is more reminiscent of 18th-19th century formal treatises or perhaps Victorian scientific writing, but it lacks Poe's distinctive characteristics:
 
@@ -290,14 +285,18 @@ The current version is well-written formal prose, but reads nothing like "The Te
 </details>
 
 
-## Fifth Example: Human in the loop
+## Fifth Example: Human in the Loop
 
-This very basic example prompts for human input before final acceptance. The human
-can approve or not. If not approved, the human can give feedback to the LLM to try again or
-use the feedback from the LLM review to try again.
+Building on the iterative refinement example, this graph includes human review in addition to the
+AI review. The human can read the draft response and AI feedback, then decide to accept or reject
+the draft answer. If the answer is rejected, the human can provide feedback for refinement, or use the
+AI's feedback for refinement.
+
+The question is the same as above: **"What are the benefits of deadlifts and squats for building overall strength?"**
+but this time the AI is to respond in the **style of a slashdot commenter.**
 
 ```bash
-python fifth_graph.py
+$ python fifth_graph.py
 ```
 
 Graph architecture:
@@ -324,12 +323,9 @@ graph TD;
 	classDef last fill:#bfb6fc
 ```
 
-Example full output:
-
 <details>
-<summary>Click to expand full output</summary>
-$ python fifth_graph.py</br>
-
+<summary>Click to show/hide full output</summary>
+<br>
 17:16:01 WARNING - fifth_graph.py:106 reviewer_node - Answer not approved by AI. Comments from AI:
 
      DECISION: NEEDS_REVISION
