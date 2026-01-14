@@ -1,14 +1,18 @@
 from dotenv import load_dotenv
 import log_setup
-from langchain_anthropic import ChatAnthropic
+from langchain_ollama import ChatOllama
 from langchain_core.messages import HumanMessage, SystemMessage
 from typing import TypedDict
 from langgraph.graph import StateGraph, END
 from os import getenv
+import sys
 
 load_dotenv()
 logger = log_setup.configure_logging()
-model = getenv("ANTHROPIC_MODEL", "claude-2")
+model = getenv("MODEL")
+if model is None:
+    logger.error("Missing required env: MODEL")
+    sys.exit(1)
 
 class ChatState(TypedDict):
     messages: list
@@ -17,13 +21,12 @@ class ChatState(TypedDict):
 
 def llm_node(state: ChatState) -> ChatState:
     """Call the LLM to answer a question"""
-    llm = ChatAnthropic(model=model, temperature=0)
+    llm = ChatOllama(model=model, temperature=0)
 
     messages = [
         SystemMessage(content="You are a sea pirate."),
         HumanMessage(content=state["question"])
     ]
-
     response = llm.invoke(messages)
     state["answer"] = response.content
     return state

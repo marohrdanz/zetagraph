@@ -2,7 +2,7 @@
 
 This repo is just me working through a tutorial on [LangGraph](https://youtu.be/dQw4w9WgXcQ?si=UeIkoAnAljXxXQmS&t=44s).
 
-I used AnthropicAI and a python virtual environment.
+I used Ollama and a python virtual environment.
 
 ## Initial Setup
 
@@ -10,12 +10,11 @@ I used AnthropicAI and a python virtual environment.
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-echo "ANTRHOPIC_API_KEY='your_api_key_here'" > .env
+echo "MODEL='your-model-here (e.g. llama3:latest)'" > .env
 ```
 
-The only required env is the `ANTHROPIC_API_KEY`, but you can also set:
+The only required env is the `MODEL`, but you can also set:
 
-- `ANTHROPIC_MODEL`
 - `LOG_LEVEL`
 - `LOG_FILE`
 

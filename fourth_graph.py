@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 import log_setup
-from langchain_anthropic import ChatAnthropic
+from langchain_ollama import ChatOllama
 from langchain_core.messages import HumanMessage, SystemMessage
 from typing import TypedDict, Literal, Annotated
 from langgraph.graph import StateGraph, END
@@ -9,10 +9,15 @@ from ddgs import DDGS
 from langchain_community.tools import DuckDuckGoSearchRun
 from langgraph.graph.message import add_messages
 from langgraph.graph import StateGraph
+import sys
 
 load_dotenv()
 logger = log_setup.configure_logging()
-model = getenv("ANTHROPIC_MODEL", "claude-2")
+model = getenv("MODEL")
+if model is None:
+    logger.error("Missing required env: MODEL")
+    sys.exit(1)
+
 
 class ResearchState(TypedDict):
     messages: Annotated[list, add_messages]
@@ -28,7 +33,7 @@ class ResearchState(TypedDict):
 
 def planner_node(state: ResearchState) -> ResearchState:
     """Create research plan"""
-    llm = ChatAnthropic(model=model, temperature=0.7)
+    llm = ChatOllama(model=model, temperature=0.7)
     prompt = f"""Create a research plan to answer this question: {state['question']}.
         List 2-3 specific search queries that would help answer this question comprehensively.
         Format as a numbered list."""
@@ -61,7 +66,7 @@ def researcher_node(state: ResearchState) -> ResearchState:
 
 def writer_node(state: ResearchState) -> ResearchState:
     """Write answer based on research."""
-    llm = ChatAnthropic(model=model, temperature=0)
+    llm = ChatOllama(model=model, temperature=0)
     research_context = "\n\n".join(state['search_results'])
     feedback_context = ""
     if state.get('reviewer_comments'):
@@ -85,7 +90,7 @@ def writer_node(state: ResearchState) -> ResearchState:
 
 def reviewer_node(state: ResearchState) -> ResearchState:
     """Review and finalize the answer."""
-    llm = ChatAnthropic(model=model, temperature=0)
+    llm = ChatOllama(model=model, temperature=0)
     prompt = f"""Review this answer for accuracy and completelness:
               Question: {state['question']}
               Asnwer: {state['draft_answer']}

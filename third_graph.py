@@ -1,15 +1,19 @@
 from dotenv import load_dotenv
 import log_setup
-from langchain_anthropic import ChatAnthropic
+from langchain_ollama import ChatOllama
 from langchain_core.messages import HumanMessage, SystemMessage
 from typing import TypedDict, Literal
 from langgraph.graph import StateGraph, END
 from os import getenv
 from ddgs import DDGS
+import sys
 
 load_dotenv()
 logger = log_setup.configure_logging()
-model = getenv("ANTHROPIC_MODEL", "claude-2")
+model = getenv("MODEL")
+if model is None:
+    logger.error("Missing required env: MODEL")
+    sys.exit(1)
 
 class AnalysisState(TypedDict):
     question: str
@@ -20,7 +24,7 @@ class AnalysisState(TypedDict):
 def analyze_question(state: AnalysisState) -> AnalysisState:
     """Determine if we need to search for information."""
     logger.debug(f"Analyzing question: {state['question']}")
-    llm = ChatAnthropic(model=model, temperature=0)
+    llm = ChatOllama(model=model, temperature=0)
     prompt = f"""Does this question require current infromation or web search? Question: {state['question']}. Respond ONLY with 'YES' or 'NO'."""
     response = llm.invoke([HumanMessage(content=prompt)])
     logger.debug(f"LLM response for checking if we need a search: {response.content}")
@@ -56,7 +60,7 @@ def search_node(state: AnalysisState) -> AnalysisState:
 
 def direct_answer_node(state: AnalysisState) -> AnalysisState:
     """Answer the question directly (no web search)."""
-    llm = ChatAnthropic(model=model, temperature=0)
+    llm = ChatOllama(model=model, temperature=0)
     response = llm.invoke([HumanMessage(content=state["question"])])
     state["answer"] = response.content
     logger.debug(f"Direct answer: {state['answer']}")
