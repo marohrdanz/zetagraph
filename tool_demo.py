@@ -5,6 +5,7 @@ from typing import TypedDict, Literal
 from langgraph.graph import StateGraph, START, END
 from langchain_core.messages import HumanMessage, SystemMessage
 from os import getenv
+from asteval import Interpreter
 import sys
 import json
 
@@ -53,8 +54,8 @@ def run_calculator(state: ToolState) -> ToolState:
 Respond only with the expression. Do not include other text.
 """
     response = llm.invoke([HumanMessage(content=prompt)])
-    ## because this is a demo, using a dangerous `eval`:
-    state['answer'] = f"""The answer to {response.content} is {eval(response.content)}"""
+    aeval = Interpreter()
+    state['answer'] = f"""The answer to {response.content} is {aeval(response.content)}"""
     return state
 
 def run_weather(state: ToolState) -> ToolState:
@@ -107,7 +108,7 @@ workflow.add_edge("search", END)
 app = workflow.compile()
 
 result = app.invoke({
-        "question": "What are the main movements in CrossFit?",
+        "question": "What is 235 divided by 9?",
         "tool_choice": "",
         "answer": ""
     })
