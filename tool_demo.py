@@ -27,7 +27,7 @@ class ToolState(TypedDict):
 
 def analyze_and_route(state: ToolState) -> ToolState:
     """LLM determines which tool is needed"""
-    prompt = f"""Analyze this user query and decide which tool is best to answser their question:
+    prompt = f"""Analyze this user query and decide which tool is best to answer their question:
 
 Query: {state['question']}
 
@@ -36,14 +36,14 @@ Choose ONE of these tools:
 - weather: For weather questions (e.g., "What's the weather in X?", "Is it raining?")
 - search: For current events, general facts, "who/what/when" questions
 
-Response ONLY with the tool name (no puncutation or explanation.
+Response ONLY with the tool name (no punctuation or explanation).
 """
     response = llm.invoke([HumanMessage(content=prompt)])
     state['tool_choice'] = response.content.lower()
     return state
 
 def route_to_tool(state: ToolState) -> str:
-    return state['tool_choice']
+    return state['tool_choice'].strip()
     
 def run_calculator(state: ToolState) -> ToolState:
     prompt =f"""Convert this text into a mathematical expression for use by python:
@@ -53,10 +53,11 @@ def run_calculator(state: ToolState) -> ToolState:
 Respond only with the expression. Do not include other text.
 """
     response = llm.invoke([HumanMessage(content=prompt)])
+    ## because this is a demo, using a dangerous `eval`:
     state['answer'] = f"""The answer to {response.content} is {eval(response.content)}"""
     return state
 
-def run_weather(state: ToolState) -> str:
+def run_weather(state: ToolState) -> ToolState:
     """Fake a weather service"""
     prompt = f"""You are a weather service.
 
@@ -70,7 +71,7 @@ Just give a plausible answer as if you were a weather service.
     state['answer'] = response.content
     return state
 
-def run_search(state: ToolState) -> str:
+def run_search(state: ToolState) -> State:
     """Fake web search"""
     prompt = f"""You are a search engine. A user searched for:
 
@@ -89,9 +90,7 @@ workflow.add_node("analyze_and_route", analyze_and_route)
 workflow.add_node("calculator", run_calculator)
 workflow.add_node("weather", run_weather)
 workflow.add_node("search", run_search)
-workflow.set_entry_point("analyze_and_route")
 workflow.add_edge(START, "analyze_and_route")
-workflow.add_edge("analyze_and_route", END)
 workflow.add_conditional_edges(
     "analyze_and_route",
     route_to_tool,
@@ -100,6 +99,9 @@ workflow.add_conditional_edges(
         "weather": "weather",
         "search": "search"
     }
+workflow.add_edge("calculator", END)
+workflow.add_edge("weather", END)
+workflow.add_edge("search", END)
 )
 
 app = workflow.compile()
