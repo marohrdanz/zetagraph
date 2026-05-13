@@ -71,7 +71,7 @@ Just give a plausible answer as if you were a weather service.
     state['answer'] = response.content
     return state
 
-def run_search(state: ToolState) -> State:
+def run_search(state: ToolState) -> ToolState:
     """Fake web search"""
     prompt = f"""You are a search engine. A user searched for:
 
@@ -99,10 +99,10 @@ workflow.add_conditional_edges(
         "weather": "weather",
         "search": "search"
     }
+)
 workflow.add_edge("calculator", END)
 workflow.add_edge("weather", END)
 workflow.add_edge("search", END)
-)
 
 app = workflow.compile()
 
@@ -113,3 +113,6 @@ result = app.invoke({
     })
 
 print(json.dumps(result, indent=2))
+mermaid_code = app.get_graph().draw_mermaid()
+print("\nMermaid Diagram:\n")
+print(mermaid_code)
